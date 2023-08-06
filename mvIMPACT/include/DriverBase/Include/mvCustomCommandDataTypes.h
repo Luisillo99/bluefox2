@@ -1,18 +1,32 @@
 //-----------------------------------------------------------------------------
+// (C) Copyright 2005 - 2023 by MATRIX VISION GmbH
+//
+// This software is provided by MATRIX VISION GmbH "as is"
+// and any express or implied warranties, including, but not limited to, the
+// implied warranties of merchantability and fitness for a particular purpose
+// are disclaimed.
+//
+// In no event shall MATRIX VISION GmbH be liable for any direct,
+// indirect, incidental, special, exemplary, or consequential damages
+// (including, but not limited to, procurement of substitute goods or services;
+// loss of use, data, or profits; or business interruption) however caused and
+// on any theory of liability, whether in contract, strict liability, or tort
+// (including negligence or otherwise) arising in any way out of the use of
+// this software, even if advised of the possibility of such damage.
+
+//-----------------------------------------------------------------------------
 #ifndef MV_CUSTOM_COMMAND_DATA_TYPES_H
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 #   define MV_CUSTOM_COMMAND_DATA_TYPES_H MV_CUSTOM_COMMAND_DATA_TYPES_H
 #endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
 //-----------------------------------------------------------------------------
 
-#ifdef __GNUC__
-#   define ATTR_PACK __attribute__((packed)) __attribute__ ((aligned (1)))
-#elif defined _MSC_VER
-#   define ATTR_PACK
+#if defined(__GNUC__) && !defined(_WIN32)
+#   define ATTR_PACK_1 __attribute__((packed)) __attribute__ ((aligned (1)))
+#else // _MSC_VER, __BORLANDC__, SWIG, ...
+#   define ATTR_PACK_1
 #   pragma pack(push, 1) // 1 byte structure alignment
-#elif !defined(SWIG)
-#   error add your compiler specific structure alignment function here
-#endif
+#endif // defined(__GNUC__) && !defined(_WIN32)
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,7 +50,7 @@ typedef unsigned __int32 uint32_type;
 #       ifdef __BORLANDC__ // is Borland compiler?
 #           pragma option push -b // force enums to the size of integer
 #       endif // __BORLANDC__
-#   elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__GNUC__)
+#   elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__APPLE__) || defined(__GNUC__)
 #       ifndef WRAP_ANY
 #           include <stdint.h>
 #       endif // #ifndef WRAP_ANY
@@ -57,8 +71,8 @@ typedef uint32_t uint32_type;
  * what/how to transmit the image.
  *
  * \since 2.18.0
+ * \ingroup GenICamInterfaceDevice
  */
-/// \ingroup GenICamInterfaceDevice
 enum TRequestTransmissionMode
 //-----------------------------------------------------------------------------
 {
@@ -74,45 +88,85 @@ enum TRequestTransmissionMode
  * which parameter shall/can be modified.
  *
  * \since 2.18.0
+ * \ingroup GenICamInterfaceDevice
  */
-/// \ingroup GenICamInterfaceDevice
 enum TSequencerSetParameter
 //-----------------------------------------------------------------------------
 {
-    /// \brief Defines the <tt>CounterDuration[CounterSelector=Counter1]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>CounterDuration[CounterSelector=Counter1]</tt> property to be modified in a user selected sequencer set.
     sspCounterDuration_Counter1,
-    /// \brief Defines the <tt>CounterDuration[CounterSelector=Counter2]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>CounterDuration[CounterSelector=Counter2]</tt> property to be modified in a user selected sequencer set.
     sspCounterDuration_Counter2,
-    /// \brief Defines the <tt>CounterDuration[CounterSelector=Counter3]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>CounterDuration[CounterSelector=Counter3]</tt> property to be modified in a user selected sequencer set.
     sspCounterDuration_Counter3,
-    /// \brief Defines the <tt>CounterDuration[CounterSelector=Counter4]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>CounterDuration[CounterSelector=Counter4]</tt> property to be modified in a user selected sequencer set.
     sspCounterDuration_Counter4,
-    /// \brief Defines the <tt>CounterDuration[CounterSelector=Counter5]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>CounterDuration[CounterSelector=Counter5]</tt> property to be modified in a user selected sequencer set.
     sspCounterDuration_Counter5,
-    /// \brief Defines the <tt>CounterDuration[CounterSelector=Counter6]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>CounterDuration[CounterSelector=Counter6]</tt> property to be modified in a user selected sequencer set.
     sspCounterDuration_Counter6,
-    /// \brief Defines the <tt>CounterDuration[CounterSelector=Counter7]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>CounterDuration[CounterSelector=Counter7]</tt> property to be modified in a user selected sequencer set.
     sspCounterDuration_Counter7,
-    /// \brief Defines the <tt>CounterDuration[CounterSelector=Counter8]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>CounterDuration[CounterSelector=Counter8]</tt> property to be modified in a user selected sequencer set.
     sspCounterDuration_Counter8,
-    /// \brief Defines the \c ExposureTime property shall be modified in a user selected sequencer set.
+    /// \brief Requests the \c ExposureTime property to be modified in a user selected sequencer set.
     sspExposureTime,
-    /// \brief Defines the <tt>Gain[GainSelector=AnalogAll]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>Gain[GainSelector=AnalogAll]</tt> property to be modified in a user selected sequencer set.
     sspGain_AnalogAll,
-    /// \brief Defines the <tt>Gain[GainSelector=AnalogRed]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>Gain[GainSelector=AnalogRed]</tt> property to be modified in a user selected sequencer set.
     sspGain_AnalogRed,
-    /// \brief Defines the <tt>Gain[GainSelector=AnalogGreen]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>Gain[GainSelector=AnalogGreen]</tt> property to be modified in a user selected sequencer set.
     sspGain_AnalogGreen,
-    /// \brief Defines the <tt>Gain[GainSelector=AnalogBlue]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>Gain[GainSelector=AnalogBlue]</tt> property to be modified in a user selected sequencer set.
     sspGain_AnalogBlue,
-    /// \brief Defines the <tt>Gain[GainSelector=AnalogTap1]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>Gain[GainSelector=AnalogTap1]</tt> property to be modified in a user selected sequencer set.
     sspGain_AnalogTap1,
-    /// \brief Defines the <tt>Gain[GainSelector=AnalogTap2]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>Gain[GainSelector=AnalogTap2]</tt> property to be modified in a user selected sequencer set.
     sspGain_AnalogTap2,
-    /// \brief Defines the <tt>Gain[GainSelector=AnalogTap3]</tt> property shall be modified in a user selected sequencer set.
+    /// \brief Requests the <tt>Gain[GainSelector=AnalogTap3]</tt> property to be modified in a user selected sequencer set.
     sspGain_AnalogTap3,
-    /// \brief Defines the <tt>Gain[GainSelector=AnalogTap4]</tt> property shall be modified in a user selected sequencer set.
-    sspGain_AnalogTap4
+    /// \brief Requests the <tt>Gain[GainSelector=AnalogTap4]</tt> property to be modified in a user selected sequencer set.
+    sspGain_AnalogTap4,
+    /// \brief Requests the <tt>OffsetX</tt> property to be modified in a user selected sequencer set.
+    /**
+     * \since 2.34.0, requires firmware version >= 2.35
+     */
+    sspOffsetX,
+    /// \brief Requests the <tt>OffsetY</tt> property to be modified in a user selected sequencer set.
+    /**
+     * \since 2.34.0, requires firmware version >= 2.35
+     */
+    sspOffsetY,
+    /// \brief Requests the <tt>Width</tt> property to be modified in a user selected sequencer set.
+    /**
+     * \since 2.36.0, requires firmware version >= 2.36
+     */
+    sspWidth,
+    /// \brief Requests the <tt>Height</tt> property to be modified in a user selected sequencer set.
+    /**
+     * \since 2.36.0, requires firmware version >= 2.36
+     */
+    sspHeight,
+    /// \brief Requests the <tt>BinningVertical</tt> property to be modified in a user selected sequencer set.
+    /**
+     * \since 2.45.0, requires firmware version >= 2.44
+     */
+    sspBinningVertical,
+    /// \brief Requests the <tt>BinningHorizontal</tt> property to be modified in a user selected sequencer set.
+    /**
+     * \since 2.45.0, requires firmware version >= 2.44
+     */
+    sspBinningHorizontal,
+    /// \brief Requests the <tt>DecimationVertical</tt> property to be modified in a user selected sequencer set.
+    /**
+     * \since 2.45.0, requires firmware version >= 2.44
+     */
+    sspDecimationVertical,
+    /// \brief Requests the <tt>DecimationHorizontal</tt> property to be modified in a user selected sequencer set.
+    /**
+     * \since 2.45.0, requires firmware version >= 2.44
+     */
+    sspDecimationHorizontal
 };
 
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS) && !defined(WRAP_ANY)
@@ -134,7 +188,7 @@ struct CustomCommandProtocolHeader
     uint16_type interpreterVersionMinor;
     uint16_type totalMessageLength;
     uint16_type request_id;
-} ATTR_PACK;
+} ATTR_PACK_1;
 
 #define VARS_SFCPacketHeader    \
     uint16_type command;        \
@@ -149,7 +203,7 @@ struct CustomCommandHeader
 //-----------------------------------------------------------------------------
 {
     VARS_SFCPacketHeader
-} ATTR_PACK;
+} ATTR_PACK_1;
 
 //-----------------------------------------------------------------------------
 struct CustomCommandSendFrame
@@ -163,7 +217,7 @@ struct CustomCommandSendFrame
     uint32_type timestamp_high;
     uint32_type timestamp_low;
     uint32_type identifier;
-} ATTR_PACK;
+} ATTR_PACK_1;
 
 //-----------------------------------------------------------------------------
 struct CustomCommandUpdateSequencerSet
@@ -171,7 +225,7 @@ struct CustomCommandUpdateSequencerSet
 {
     VARS_SFCPacketHeader
     VARS_SFCPacketUpdateSequencerSet
-} ATTR_PACK;
+} ATTR_PACK_1;
 
 //-----------------------------------------------------------------------------
 struct CustomCommandUpdateSequencerSetI64
@@ -181,7 +235,7 @@ struct CustomCommandUpdateSequencerSetI64
     VARS_SFCPacketUpdateSequencerSet
     int32_type value_high;
     int32_type value_low;
-} ATTR_PACK;
+} ATTR_PACK_1;
 
 //-----------------------------------------------------------------------------
 struct CustomCommandUpdateSequencerSetF
@@ -190,7 +244,7 @@ struct CustomCommandUpdateSequencerSetF
     VARS_SFCPacketHeader
     VARS_SFCPacketUpdateSequencerSet
     char data[8];
-} ATTR_PACK;
+} ATTR_PACK_1;
 
 typedef enum TRequestTransmissionMode TRequestTransmissionMode;
 typedef enum TSequencerSetParameter TSequencerSetParameter;
@@ -222,13 +276,9 @@ typedef struct CustomCommandUpdateSequencerSetF CustomCommandUpdateSequencerSetF
 }
 #endif // __cplusplus
 
-#ifdef __GNUC__
-#   undef ATTR_PACK
-#elif defined _MSC_VER
-#   undef ATTR_PACK
+#if defined(_WIN32) || !defined(__GNUC__)
 #   pragma pack(pop) // restore previous structure alignment
-#elif !defined(SWIG)
-#   error restore your compiler specific structure alignment here if necessary
-#endif
+#endif //  defined(_WIN32) || !defined(__GNUC__)
+#undef ATTR_PACK_1
 
 #endif /*MV_CUSTOM_COMMAND_DATA_TYPES_H*/

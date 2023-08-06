@@ -1,4 +1,20 @@
 //-----------------------------------------------------------------------------
+// (C) Copyright 2005 - 2023 by MATRIX VISION GmbH
+//
+// This software is provided by MATRIX VISION GmbH "as is"
+// and any express or implied warranties, including, but not limited to, the
+// implied warranties of merchantability and fitness for a particular purpose
+// are disclaimed.
+//
+// In no event shall MATRIX VISION GmbH be liable for any direct,
+// indirect, incidental, special, exemplary, or consequential damages
+// (including, but not limited to, procurement of substitute goods or services;
+// loss of use, data, or profits; or business interruption) however caused and
+// on any theory of liability, whether in contract, strict liability, or tort
+// (including negligence or otherwise) arising in any way out of the use of
+// this software, even if advised of the possibility of such damage.
+
+//-----------------------------------------------------------------------------
 #ifndef MVIMPACT_ACQUIRE_GENICAM_FILESTREAM_H_
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 #   define MVIMPACT_ACQUIRE_GENICAM_FILESTREAM_H_ MVIMPACT_ACQUIRE_GENICAM_FILESTREAM_H_
@@ -30,7 +46,7 @@ namespace GenICam
 {
 
 /** \defgroup GenICamInterfaceFileStream GenICam interface layout(file stream)
- * \brief Classes and functions that will be available if the device is used with the \a GenICam interface layout.
+ * \brief Classes and functions that will be available if the device is used with the \a %GenICam interface layout.
  *
  *  This group contains classes and functions that will be available if the device is used
  *  with the <b>mvIMPACT::acquire::dilGenICam</b> interface layout.
@@ -772,6 +788,24 @@ public:
         this->init( &m_streambuf );
         this->open( pDev, pFileName, mode );
     }
+#elif defined (__APPLE__)
+    /// \brief Constructs a new \b mvIMPACT::acquire::GenICam::IDevFileStreamBase object.
+    IDevFileStreamBase() : istream_type( 0 ), m_streambuf()
+    {
+        this->init( &m_streambuf );
+    }
+    /// \brief Constructs a new \b mvIMPACT::acquire::GenICam::IDevFileStreamBase object.
+    IDevFileStreamBase(
+        /// A pointer to a <b>mvIMPACT::acquire::Device</b> object obtained from a <b>mvIMPACT::acquire::DeviceManager</b> object.
+        mvIMPACT::acquire::Device* pDev,
+        /// Name of the file to open
+        const char* pFileName,
+        /// File open mode
+        std::ios_base::openmode mode = std::ios_base::in ) : istream_type( 0 ), m_streambuf()
+    {
+        this->init( &m_streambuf );
+        this->open( pDev, pFileName, mode );
+    }
 #elif defined (__GNUC__)
     /// \brief Constructs a new \b mvIMPACT::acquire::GenICam::IDevFileStreamBase object.
     IDevFileStreamBase() : istream_type(), m_streambuf()
@@ -1024,11 +1058,11 @@ typedef IDevFileStreamBase<char, std::char_traits<char> > IDevFileStream;
 } // namespace acquire
 } // namespace mvIMPACT
 
-#if !defined(DOXYGEN_SHOULD_SKIP_THIS) && !defined(WRAP_PYTHON)
+#if !defined(DOXYGEN_SHOULD_SKIP_THIS) && !defined(WRAP_ANY)
 #   ifndef MVIMPACT_USE_NAMESPACES
 using namespace mvIMPACT::acquire::GenICam;
 #   endif // #ifndef MVIMPACT_USE_NAMESPACES
-#endif // #if !defined(DOXYGEN_SHOULD_SKIP_THIS) && !defined(WRAP_PYTHON)
+#endif // #if !defined(DOXYGEN_SHOULD_SKIP_THIS) && !defined(WRAP_ANY)
 
 #ifdef _MSC_VER
 #   pragma pop_macro("min")

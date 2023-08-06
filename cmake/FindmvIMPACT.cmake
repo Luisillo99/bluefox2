@@ -72,7 +72,7 @@ list(APPEND mvIMPACT_CHECK_INCLUDE_DIRS
 execute_process(COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCH)
 list(APPEND mvIMPACT_CHECK_LIBRARY_DIRS
     ${BLUEFOX2_DIR}/mvIMPACT/lib/${ARCH}
-    /opt/mvIMPACT_acquire/lib/${ARCH}
+    /opt/mvIMPACT_Acquire/lib/arm64}
     )
 
 # Check general hints
@@ -94,7 +94,7 @@ if(NOT mvIMPACT_INCLUDE_DIR OR NOT EXISTS ${mvIMPACT_INCLUDE_DIR})
         "path to mvimpact include directory,"
         "e.g. /opt/mvIMPACT_acquire.")
 else()
-    message(STATUS "mvimpact include dir found: " ${mvIMPACT_INCLUDE_DIR})
+    message(STATUS "mvimpacto include dir found: " ${mvIMPACT_INCLUDE_DIR})
 endif()
 
 # Find library directory for mvimpact
